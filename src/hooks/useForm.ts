@@ -85,6 +85,7 @@ export const useRegistrationForm = <T>() => {
     control,
   } = useForm<RegistrationDataInterface>({
     resolver: yupResolver(validationSchema),
+    mode: "onChange",
   });
   const onSubmit = useCallback((formValues: RegistrationDataInterface) => {
     try {

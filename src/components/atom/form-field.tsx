@@ -10,10 +10,11 @@ interface FormFieldType {
 export const FormField = ({ id, label, children }: FormFieldType) => {
   return (
     <>
-      {children}
-      <label htmlFor={id} className={classNames("text-green-500 py-1 block")}>
+      <label htmlFor={id} className={classNames("text-green-500 block mb-1")}>
         {label}
       </label>
+
+      {children}
     </>
   );
 };

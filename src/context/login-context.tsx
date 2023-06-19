@@ -1,4 +1,5 @@
-import { ReactElement, createContext, useContext, useReducer } from "react";
+import { ReactElement, createContext, useReducer } from "react";
+import { useNavigate } from "react-router";
 
 type ACTIONTYPE<T> =
   | { type: "login" }
@@ -10,12 +11,14 @@ interface State<T> {
   data?: T;
   error?: Error;
   isLoading: boolean;
+  token?: T;
 }
 
-export const initialState = {
+const initialState = {
   data: undefined,
   isLoading: false,
   error: undefined,
+  token: 123,
 };
 
 function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
@@ -48,9 +51,11 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch({ type: "logout" });
+    navigate("/signup");
   };
 
   return { state, handleLogout };
@@ -69,10 +74,10 @@ export const LoginContext = createContext<UseLoginContextType>(
   LoginContextInitialState
 );
 
-type ChildrenType<T> = {
+type ChildrenType = {
   children?: ReactElement;
 };
-export const LoginContextProvider = <T,>({ children }: ChildrenType<T>) => {
+export const LoginContextProvider = ({ children }: ChildrenType) => {
   return (
     <LoginContext.Provider value={useLoginContext(initialState)}>
       {children}

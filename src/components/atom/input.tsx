@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react";
+import { useDarkMode } from "usehooks-ts";
 
 type InputType = "text" | "email" | "password" | "number";
 type InputSize = "small" | "medium" | "large";
@@ -36,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, InputPropsType>(
     }: InputPropsType,
     ref
   ) => {
+    const { isDarkMode } = useDarkMode();
     return (
       <input
         type={type}
@@ -44,7 +46,9 @@ export const Input = forwardRef<HTMLInputElement, InputPropsType>(
         aria-label={label}
         placeholder={placeholder}
         className={classNames(
-          "w-full text-gray-100 bg-gray-700 block px-5 outline-none transition-colors ease-in-out focus:border-blue-700'",
+          `w-full text-gray-100 ${
+            isDarkMode ? "bg-gray-700" : "bg-dark"
+          } block px-5 outline-none transition-colors ease-in-out focus:border-blue-700'`,
 
           sizeMap[size],
           className

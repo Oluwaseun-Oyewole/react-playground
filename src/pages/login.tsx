@@ -1,20 +1,41 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { PointToLogin } from "../components/UI/pointToLogin";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
 import { FormInput } from "../components/molescules/form-input";
-import { useRegistrationForm } from "../hooks/useForm";
-import { RegistrationDataInterface } from "../model/User";
+import type { LoginModelType } from "../model/User";
+import { LoginModel } from "../model/User";
 
 export const Login = () => {
-  const { register, errors, onSubmit } = useRegistrationForm();
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm<LoginModelType>({
+    resolver: zodResolver(LoginModel),
+    mode: "onChange",
+  });
+
+  const onSubmit = useCallback((formValues: LoginModelType) => {
+    try {
+      console.log(formValues);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log("error", error);
+      }
+    }
+  }, []);
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet label="Login Form">
           <>
             <FormField label="Username" id="username">
-              <FormInput
+              <FormInput<LoginModelType>
                 id="username"
                 type="text"
                 size="medium"
@@ -30,7 +51,7 @@ export const Login = () => {
             </FormField>
 
             <FormField label="Password" id="password">
-              <FormInput<RegistrationDataInterface>
+              <FormInput<LoginModelType>
                 id="password"
                 name="password"
                 size="medium"
@@ -43,7 +64,7 @@ export const Login = () => {
             </FormField>
 
             <FormField id="passwordConfirmation" label="Confirm Password">
-              <FormInput<RegistrationDataInterface>
+              <FormInput<LoginModelType>
                 id="passwordConfirmation"
                 name="passwordConfirmation"
                 register={register}
@@ -61,6 +82,11 @@ export const Login = () => {
           <Button children="submit" type="submit" />
         </FieldSet>
       </form>
+      <PointToLogin
+        path="/signup"
+        children="SignUp"
+        message="Already Signup ?"
+      />
     </div>
   );
 };

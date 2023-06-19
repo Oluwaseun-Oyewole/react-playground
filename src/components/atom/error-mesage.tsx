@@ -9,7 +9,7 @@ export const FormErrorMessgae = ({
   className,
 }: ErrorMessagepropType) => {
   return (
-    <div className={classNames("text-gray-100 text-sm", className)}>
+    <div className={classNames("text-gray-100 text-sm mb-3", className)}>
       {children}
     </div>
   );
