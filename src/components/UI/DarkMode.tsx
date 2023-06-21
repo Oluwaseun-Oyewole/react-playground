@@ -1,7 +1,7 @@
 import { useDarkMode } from "usehooks-ts";
 
 export const DarkMode = () => {
-  const { isDarkMode, toggle, enable, disable } = useDarkMode();
+  const { isDarkMode, toggle } = useDarkMode();
 
   return (
     <div>

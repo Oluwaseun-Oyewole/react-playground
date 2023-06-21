@@ -21,7 +21,7 @@ export const OverallContainer = ({ children }: OverallProps) => {
     >
       <button
         onClick={toggle}
-        className="text-2xl max-w-7xl mx-auto block py-5 self-start"
+        className="text-3xl max-w-[1100px] block py-5 self-start w-full mx-auto"
       >
         {isDarkMode ? <MdDarkMode /> : <CiLight />}
       </button>

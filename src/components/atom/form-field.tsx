@@ -5,12 +5,21 @@ interface FormFieldType {
   id: string;
   label?: string;
   children?: ReactElement;
+  className?: string;
 }
 
-export const FormField = ({ id, label, children }: FormFieldType) => {
+export const FormField = ({
+  id,
+  label,
+  children,
+  className,
+}: FormFieldType) => {
   return (
     <>
-      <label htmlFor={id} className={classNames("text-green-500 block mb-1")}>
+      <label
+        htmlFor={id}
+        className={classNames("text-green-500 block mb-1", className)}
+      >
         {label}
       </label>
 

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { FetchContextProvider } from "./context/fetch-context";
 import { LoginContextProvider } from "./context/login-context";
 import { Layout } from "./layout";
 import { Login } from "./pages/login";
@@ -14,29 +15,31 @@ import { Users } from "./views/users/Users";
 
 function App() {
   return (
-    <div className={classNames("max-w-7xl mx-auto")}>
+    <div className={classNames("max-w-[1100px] mx-auto")}>
       <LoginContextProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="login" element={<Login />} />
-            <Route index path="signup" element={<Signup />} />
-            <Route element={<PrivateRoute />}>
-              <Route path="dashboard" element={<Dashboard />}>
-                <Route index path="users" element={<Users />} />
-                <Route path="posts" element={<Posts />}>
-                  <Route path=":id" element={<PostDetail />}>
-                    <Route index element={<PostIndex />} />
-                    <Route path="comments" element={<Comments />}>
-                      <Route index element={<Comments />} />
+        <FetchContextProvider>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="login" element={<Login />} />
+              <Route index path="signup" element={<Signup />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="dashboard" element={<Dashboard />}>
+                  <Route index path="users" element={<Users />} />
+                  <Route path="posts" element={<Posts />}>
+                    <Route path=":id" element={<PostDetail />}>
+                      <Route index element={<PostIndex />} />
+                      <Route path="comments" element={<Comments />}>
+                        <Route index element={<Comments />} />
+                      </Route>
                     </Route>
                   </Route>
                 </Route>
               </Route>
-            </Route>
 
-            <Route path="*" element={<Navigate to="/signup" replace />} />
-          </Route>
-        </Routes>
+              <Route path="*" element={<Navigate to="/signup" replace />} />
+            </Route>
+          </Routes>
+        </FetchContextProvider>
       </LoginContextProvider>
     </div>
   );
