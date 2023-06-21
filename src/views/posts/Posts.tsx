@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { z } from "zod";
 import { PaginatedItems } from "../../components/atom/Paginate";
 import { useFetchContextProvider } from "../../context/fetch-context";
@@ -21,13 +21,19 @@ export const Posts = () => {
     "http://jsonplaceholder.typicode.com/posts"
   );
 
+  const { pathname } = useLocation();
+  console.log("pathname", pathname);
+
   const itemsPerPage = 25;
   const { states } = useFetchContextProvider();
   const [itemOffset, setItemOffset] = useState(0);
 
   const endOffset = itemOffset + itemsPerPage;
-  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  // const currentItems = states?.data?.slice(itemOffset, endOffset) || data;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems =
+    pathname === "/dashboard/posts/"
+      ? states?.data?.slice(itemOffset, endOffset)
+      : states.data;
   const pageCount = Math.ceil(states?.data?.length / itemsPerPage);
 
   const handlePageClick = (event: any) => {
@@ -43,7 +49,7 @@ export const Posts = () => {
       <p>{error?.message && error.message}</p>
       {data && data.length && (
         <div>
-          {data?.map((el, i) => {
+          {currentItems?.map((el, i) => {
             return (
               <Link to={`${el.id}`} key={i} className="flex gap-2 items-center">
                 <small>{el.id}</small>

@@ -7,29 +7,26 @@ export const Logout = () => {
   const { state, handleLogout } = useLoginContextProvider();
   const [pop, setPop] = useState(false);
 
-  console.log("prop", pop);
-
   const logout = (
     <>
       {state.token && (
         <button
           onClick={handleLogout}
-          className={classNames(
-            "text-3xl text-blue-500 font-medium absolute bottom-10 right-[220px]"
-          )}
+          className={classNames("text-lg text-red-500 font-medium")}
         >
-          <FiLogOut
+          {/* <FiLogOut
             className={`hover:${pop}`}
             onMouseOver={() => setPop(true)}
             onMouseOut={() => setPop(false)}
-          />
-          <p
+          /> */}
+          logout
+          {/* <p
             className={classNames(
               `${pop ? "block text-base absolute text-white" : "hidden"}`
             )}
           >
             Logout
-          </p>
+          </p> */}
         </button>
       )}
     </>

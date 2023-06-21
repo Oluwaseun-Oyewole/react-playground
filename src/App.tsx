@@ -11,7 +11,7 @@ import { Comments } from "./views/comments/Comment";
 import { PostDetail } from "./views/posts/PostDetail";
 import { PostIndex } from "./views/posts/PostIndex";
 import { Posts } from "./views/posts/Posts";
-import { Users } from "./views/users/Users";
+import { Users } from "./views/users";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               <Route index path="signup" element={<Signup />} />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Dashboard />}>
-                  <Route index path="users" element={<Users />} />
+                  <Route index={true} path="users" element={<Users />} />
                   <Route path="posts" element={<Posts />}>
                     <Route path=":id" element={<PostDetail />}>
                       <Route index element={<PostIndex />} />

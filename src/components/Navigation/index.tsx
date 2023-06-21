@@ -18,7 +18,7 @@ const positionMap: { [key in NavigationPosition]: string } = {
 
 export const Navigation = ({ children, position, show }: ChildrenTypes) => {
   return (
-    <div className={classNames("flex justify-between w-full")}>
+    <div className={classNames("flex justify-between w-full py-3")}>
       {show && <Logout />}
       <nav className="w-full">
         <ul className={classNames("flex gap-2 w-full", positionMap[position])}>
