@@ -38,8 +38,17 @@ export const Input = forwardRef<HTMLInputElement, InputPropsType>(
     ref
   ) => {
     const { isDarkMode } = useDarkMode();
+
     return (
       <input
+        onPaste={(e: any) => {
+          e.preventDefault();
+          return type === "password" ? false : true;
+        }}
+        onCopy={(e: any) => {
+          e.preventDefault();
+          return type === "password" ? false : true;
+        }}
         type={type}
         id={id}
         name={name}

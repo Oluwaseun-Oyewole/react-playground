@@ -6,7 +6,11 @@ type ChildrenType = {
   path: string;
   children: string;
 };
-export const PointToLogin = ({ children, path, message }: ChildrenType) => {
+export const QuestionComponent = ({
+  children,
+  path,
+  message,
+}: ChildrenType) => {
   const pointToLogin = (
     <>
       <div>

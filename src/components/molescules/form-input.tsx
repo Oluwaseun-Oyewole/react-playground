@@ -18,6 +18,7 @@ export const FormInput = <T,>({
   register,
   errors,
   className,
+  id,
   ...props
 }: FormInputPropsType<T>) => {
   const errorMessages = get(errors, name);
@@ -27,6 +28,7 @@ export const FormInput = <T,>({
     <div className={classNames("", className)}>
       <Input
         aria-invalid={hasError}
+        aria-describedby={id}
         {...props}
         {...(register && register(name, rules))}
         className={classNames(
