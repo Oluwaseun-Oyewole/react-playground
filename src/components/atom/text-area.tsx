@@ -42,7 +42,7 @@ export const FormTextArea = ({
         aria-label={label}
         rows={row}
         className={classNames(
-          `block w-full p-3  rounded leading-none transition-colors ease-in-out text-gray-700 bg-gray-50 border focus:outline-none overflow-auto resize-none border-gray-700 text-white ${
+          `block w-full p-3  rounded leading-none transition-colors ease-in-out text-gray-700 border focus:outline-none overflow-auto resize-none border-gray-700 text-white ${
             isDarkMode ? "bg-gray-700" : "bg-dark"
           }`,
           className

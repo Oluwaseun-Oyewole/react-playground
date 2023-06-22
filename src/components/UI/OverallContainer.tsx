@@ -19,12 +19,11 @@ export const OverallContainer = ({ children }: OverallProps) => {
         } min-h-screen`
       )}
     >
-      <button
-        onClick={toggle}
-        className="text-3xl max-w-[1100px] block py-5 self-start w-full mx-auto"
-      >
-        {isDarkMode ? <MdDarkMode /> : <CiLight />}
-      </button>
+      <div className="text-3xl block py-3 w-full max-w-[1100px] mx-auto">
+        <button onClick={toggle}>
+          {isDarkMode ? <MdDarkMode /> : <CiLight />}
+        </button>
+      </div>
       {children}
     </div>
   );

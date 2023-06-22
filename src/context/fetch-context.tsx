@@ -12,7 +12,7 @@ interface State<T> {
   error?: any;
 }
 const initialState = {
-  data: undefined,
+  data: [],
   status: "",
   error: undefined,
 };
@@ -38,23 +38,25 @@ const useContextReducer = <T,>() => {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const startLoad = useCallback(() => {
-    dispatch({ type: "loading" });
-  }, []);
-  const fetchedLoad = useCallback((data: any) => {
-    dispatch({ type: "fetched", payload: data });
-  }, []);
 
-  const errorLoad = useCallback((error: any) => {
-    dispatch({ type: "error", payload: error });
-  }, []);
+  console.log("state.data -- state.data", state.data);
+  // const startLoad = useCallback(() => {
+  //   dispatch({ type: "loading" });
+  // }, []);
+  // const fetchedLoad = useCallback((data: any) => {
+  //   dispatch({ type: "fetched", payload: data });
+  // }, []);
+
+  // const errorLoad = useCallback((error: any) => {
+  //   dispatch({ type: "error", payload: error });
+  // }, []);
 
   return {
     states: state,
     dispatcher: dispatch,
-    startLoad,
-    fetchedLoad,
-    errorLoad,
+    // startLoad,
+    // fetchedLoad,
+    // errorLoad,
   };
 };
 
@@ -64,17 +66,17 @@ const initialContextState: UseFetchContextType = {
   dispatcher: () => {
     /**/
   },
-  startLoad: () => {
-    /**/
-  },
+  // startLoad: () => {
+  //   /**/
+  // },
 
-  fetchedLoad: () => {
-    /**/
-  },
+  // fetchedLoad: () => {
+  //   /**/
+  // },
 
-  errorLoad: () => {
-    /**/
-  },
+  // errorLoad: () => {
+  //   /**/
+  // },
 };
 export const FetchContext =
   createContext<UseFetchContextType>(initialContextState);
@@ -82,6 +84,7 @@ export const FetchContext =
 type ChildrenStateType = {
   children?: ReactElement | undefined;
 };
+
 export const FetchContextProvider = ({ children }: ChildrenStateType) => {
   return (
     <FetchContext.Provider value={useContextReducer()}>

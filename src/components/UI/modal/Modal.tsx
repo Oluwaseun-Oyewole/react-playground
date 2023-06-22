@@ -44,13 +44,13 @@ export const Modal = ({
           <animated.div
             style={animationProps}
             className={classNames(
-              "absolute left-0 w-full overflow-hidden flex justify-center items-center z-20 top-0 pr-[40px] w-[100%] h-screen  overflow-y-scroll"
+              "absolute md:left-0 w-full overflow-hidden flex justify-center items-center z-20 top-0 pr-[40px] h-screen  overflow-y-scroll"
             )}
             onClick={close}
           >
             <div
               className={classNames(
-                "bg-gray-900 w-[70%] lg:w-[40%] rounded-[2px] h-auto mx-auto md:m-auto p-10 pt-7 pr-6"
+                "bg-gray-900 md:w-[70%] lg:w-[50%] rounded-[2px] h-auto mx-auto md:m-auto p-8 pt-7 pr-6 w-full text-sm md:text-base"
               )}
               {...props}
               onClick={(e) => e.stopPropagation()}
@@ -95,13 +95,13 @@ export const Modal = ({
           <animated.div
             style={animationProps}
             className={classNames(
-              "absolute left-0 w-full overflow-hidden flex justify-center items-center z-20 top-0 pr-[40px] w-[100%] h-screen  overflow-y-scroll"
+              "absolute md:left-0 w-full overflow-hidden flex justify-center items-center z-20 top-0 pr-[40px] min-h-screen  overflow-y-scroll"
             )}
             onClick={close}
           >
             <div
               className={classNames(
-                "bg-black w-[70%] lg:w-[40%] rounded-[2px] h-auto mx-auto md:m-auto p-10 pt-7 pr-6"
+                "bg-black md:w-[70%] lg:w-[50%] rounded-[2px] h-auto mx-auto md:m-auto p-10 pt-7 pr-6 text-sm md:text-base w-full"
               )}
               {...props}
               onClick={(e) => e.stopPropagation()}

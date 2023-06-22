@@ -12,10 +12,15 @@ import { PostDetail } from "./views/posts/PostDetail";
 import { PostIndex } from "./views/posts/PostIndex";
 import { Posts } from "./views/posts/Posts";
 import { Users } from "./views/users";
+import { UserDetails } from "./views/users/UserDetails";
 
 function App() {
   return (
-    <div className={classNames("max-w-[1100px] mx-auto")}>
+    <div
+      className={classNames(
+        "px-7 lg:px-0 md:max-w-[1100px] mx-auto overflow-hidden"
+      )}
+    >
       <LoginContextProvider>
         <FetchContextProvider>
           <Routes>
@@ -24,7 +29,9 @@ function App() {
               <Route index path="signup" element={<Signup />} />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Dashboard />}>
-                  <Route index={true} path="users" element={<Users />} />
+                  <Route path="users" element={<Users />}>
+                    <Route index path=":id" element={<UserDetails />} />
+                  </Route>
                   <Route path="posts" element={<Posts />}>
                     <Route path=":id" element={<PostDetail />}>
                       <Route index element={<PostIndex />} />

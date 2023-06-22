@@ -17,7 +17,7 @@ export const LoginModel = z
       })
       .nonempty({ message: "Username is required" })
       .regex(/^[A-z][A-z0-9-_]{0,23}$/, {
-        message: "Username shoud not contain a space e.g. MikeJaden",
+        message: "Username should not contain a space e.g. MikeJaden",
       })
       .min(5, { message: "Username must be at least 5 characters long" })
       .refine((val) => val.length <= 10, {
@@ -27,7 +27,7 @@ export const LoginModel = z
       .string()
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/, {
         message:
-          "Password must contain a capital letter, small leter and special characters",
+          "Password must contain a capital letter, small letter and special characters",
       })
       .min(10, {
         message: "Password character must be less than 10 characters",
@@ -45,12 +45,12 @@ export const BasicUserSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, { message: "Name Must be 2 or more characetrs long" }),
+    .min(2, { message: "Name Must be 2 or more characters long" }),
   username: z
     .string()
     .trim()
     .toLowerCase()
-    .min(4, { message: "Username must be 4 or more characetrs long" }),
+    .min(4, { message: "Username must be 4 or more characters long" }),
   email: z.string().trim().toLowerCase(),
   phone: z
     .string()

@@ -1,47 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { instance } from "../api/axios";
 import { QuestionComponent } from "../components/UI/Question";
+import { Backdrop } from "../components/UI/modal/Backdrop";
+import { Modal } from "../components/UI/modal/Modal";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
 import { FormInput } from "../components/molescules/form-input";
+import { useLoginContextProvider } from "../hooks/use-login-context";
 import type { LoginModelType } from "../model/User";
 import { LoginModel } from "../model/User";
 
-interface State<T> {
-  data?: T;
-  error?: T;
-  status: string;
-}
-
-type Action<T> =
-  | { type: "loading" }
-  | { type: "fetched"; payload: T }
-  | { type: "error"; payload: T };
-
-export const Login = <T,>() => {
-  const initialState: State<T> = {
-    error: undefined,
-    data: undefined,
-    status: "submit",
-  };
-
-  const fetchReducer = (state: State<T>, action: Action<T>): State<T> => {
-    switch (action.type) {
-      case "loading":
-        return { ...initialState, status: "Loading..." };
-      case "fetched":
-        return { ...initialState, data: action.payload, status: "Completed" };
-      case "error":
-        return { ...initialState, error: action.payload, status: "Error" };
-      default:
-        return state;
-    }
-  };
-
-  const [states, dispatch] = useReducer(fetchReducer, initialState);
+export const Login = () => {
+  const { setToken } = useLoginContextProvider();
 
   const {
     handleSubmit,
@@ -52,6 +26,7 @@ export const Login = <T,>() => {
     mode: "onChange",
   });
   const [maliciousIntent, setMaliciousIntent] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = async (formValues: LoginModelType) => {
     // For Funny Users With Malicious Intentions
@@ -66,27 +41,35 @@ export const Login = <T,>() => {
       return;
     }
     try {
-      dispatch({ type: "loading" });
-      const response = await instance.post(
-        "/posts",
-        JSON.stringify(formValues),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      const data = await response.data;
-      console.log("data from submitted", data);
-      dispatch({ type: "fetched", payload: data });
+      // const response = await instance.post(
+      //   "whateer-post-endpoint",
+      //   JSON.stringify(formValues),
+      //   {
+      //     headers: { "Content-Type": "application/json" },
+      //     withCredentials: true,
+      //   }
+      // );
+      // const data = await response.data;
+
+      if (
+        formValues.username === "Samuel" &&
+        formValues.password === "Samuel2023@"
+      ) {
+        navigate("/dashboard");
+        setToken("12345");
+      }
     } catch (error) {
       if (error instanceof Error) {
-        dispatch({ type: "error", payload: error as any });
+        console.log("error", error);
       }
     }
   };
 
+  // useEffect(() => {}, []);
+
   return (
     <div>
+      <InfoModal />
       <h1>{maliciousIntent && maliciousIntent}</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet label="Login Form">
@@ -145,5 +128,22 @@ export const Login = <T,>() => {
         message="Already Signup ?"
       />
     </div>
+  );
+};
+
+export const InfoModal = () => {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setShow(true);
+  }, []);
+  return (
+    <>
+      <Backdrop />
+      <Modal
+        show={show}
+        close={() => setShow(false)}
+        children={"FullName -- Samuel, Password -- Samuel2023@"}
+      />
+    </>
   );
 };

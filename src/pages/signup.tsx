@@ -1,4 +1,4 @@
-import { PointToLogin } from "../components/UI/pointToLogin";
+import { QuestionComponent } from "../components/UI/Question";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
@@ -92,7 +92,11 @@ export const Signup = () => {
           <Button children="submit" type="submit" />
         </FieldSet>
       </form>
-      <PointToLogin path="/login" children="login" message="Not SignUp Yet?" />
+      <QuestionComponent
+        path="/login"
+        children="login"
+        message="Not SignUp Yet?"
+      />
     </div>
   );
 };

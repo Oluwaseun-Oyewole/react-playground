@@ -1,4 +1,4 @@
-import { ReactElement, createContext, useReducer } from "react";
+import { ReactElement, createContext, useReducer, useState } from "react";
 import { useNavigate } from "react-router";
 
 type ACTIONTYPE<T> =
@@ -11,14 +11,12 @@ interface State<T> {
   data?: T;
   error?: Error;
   isLoading: boolean;
-  token?: T;
 }
 
 const initialState = {
   data: undefined,
   isLoading: false,
   error: undefined,
-  token: 123,
 };
 
 function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
@@ -51,14 +49,16 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
+  const [token, setToken] = useState<string>("");
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch({ type: "logout" });
+    // dispatch({ type: "logout" });
+    setToken("");
     navigate("/signup");
   };
 
-  return { state, handleLogout };
+  return { state, handleLogout, token, setToken };
 };
 
 type UseLoginContextType = ReturnType<typeof useLoginContext>;
@@ -66,6 +66,10 @@ type UseLoginContextType = ReturnType<typeof useLoginContext>;
 const LoginContextInitialState: UseLoginContextType = {
   state: initialState,
   handleLogout: () => {
+    /**/
+  },
+  token: "",
+  setToken: () => {
     /**/
   },
 };

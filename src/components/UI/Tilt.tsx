@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import VanillaTilt from "vanilla-tilt";
 
 export const Tilt = (props: any) => {

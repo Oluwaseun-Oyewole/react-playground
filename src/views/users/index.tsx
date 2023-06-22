@@ -1,5 +1,6 @@
 import { chunk } from "lodash";
 import { useEffect, useState } from "react";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useDarkMode } from "usehooks-ts";
 import { z } from "zod";
 import { UserSchemaWithGeo } from "../../model/User";
@@ -29,8 +30,9 @@ export const Users = () => {
   }, []);
 
   const dt = chunk(data, 3);
+  const { id } = useParams();
 
-  return (
+  return !id ? (
     <div>
       <div className="flex text-sm">
         {chunk(dt.slice(0, 8), 4)?.map((value) => {
@@ -38,22 +40,27 @@ export const Users = () => {
             <div>
               {value.map((el, id) => {
                 return (
-                  <div key={id} className="flex gap-5">
+                  <div
+                    key={id}
+                    className="text-sm flex-col md:flex-row flex gap-5"
+                  >
                     {el.map((e: any, i) => {
                       return (
-                        <div
-                          className={`${
-                            isDarkMode ? "bg-gray-900" : "bg-dark"
-                          } my-2 py-10 px-10 hover:scale-90 transition-all ease-in-out duration-500 cursor-pointer`}
-                        >
-                          <p>Name : {e.name}</p>
-                          <p>Username : {e.website}</p>
-                          <p>Phone : {e.phone}</p>
-                          <p className="text-green-500 py-1">
-                            Email : {e.email}
-                          </p>
-                          <p> {e.body}</p>
-                        </div>
+                        <Link to={`${e?.id}`}>
+                          <div
+                            className={`${
+                              isDarkMode ? "bg-gray-900" : "bg-dark"
+                            } my-2 py-10 px-10 hover:scale-90 transition-all ease-in-out duration-500 cursor-pointer`}
+                          >
+                            <p>Name : {e.name}</p>
+                            <p>Username : {e.website}</p>
+                            <p>Phone : {e.phone}</p>
+                            <p className="text-green-500 py-1">
+                              Email : {e.email}
+                            </p>
+                            <p> {e.body}</p>
+                          </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -64,5 +71,7 @@ export const Users = () => {
         })}
       </div>
     </div>
+  ) : (
+    <Outlet />
   );
 };
