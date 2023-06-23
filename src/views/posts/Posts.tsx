@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { z } from "zod";
+import { useFetchContextProvider } from "../../context/fetch-context";
 import { useFetch } from "../../hooks/useFetch";
 import { PostSchema } from "../../model/Posts";
 
@@ -19,6 +20,7 @@ export const Posts = () => {
   const { status, error, data } = useFetch<PostInterface[]>(
     "http://jsonplaceholder.typicode.com/posts"
   );
+  // const { data } = useFetchContextProvider();
 
   const itemsPerPage = 20;
   const [itemOffset, setItemOffset] = useState(0);

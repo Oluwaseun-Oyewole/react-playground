@@ -25,7 +25,7 @@ export const FormInput = <T,>({
   const hasError = !!(errors && errorMessages);
 
   return (
-    <div className={classNames("", className)}>
+    <div className={classNames("my-1", className)}>
       <Input
         aria-invalid={hasError}
         aria-describedby={id}

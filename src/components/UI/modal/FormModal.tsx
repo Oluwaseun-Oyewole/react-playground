@@ -27,7 +27,6 @@ export const FormModal = ({
   id,
 }: ModalPropType) => {
   const [showPostAction, setPostAction] = useState(false);
-
   const { states, fetchedLoad, errorLoad } = useFetchContextProvider();
 
   const {

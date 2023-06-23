@@ -1,6 +1,5 @@
-import axios from "axios";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsForward } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
@@ -25,20 +24,18 @@ export const PostIndex = () => {
   const [showModal, setShowModal] = useState(false);
   const [formModal, setFormModal] = useState(false);
 
-  const { states } = useFetchContextProvider();
-
+  const { states, dispatcher, errorLoad } = useFetchContextProvider();
   const deleteHandler = async () => {
     const res = await jsonInstance.delete(`/posts/${id}`);
     try {
       const data = res?.data;
-      // setData(res?.data);
-
+      dispatcher({ type: "fetched", payload: data });
       if (res?.status === 200) {
-        // navigate("/dashboard/posts");
+        navigate("/dashboard/posts");
       }
     } catch (error) {
       if (error instanceof Error) {
-        // errorLoad(error);
+        errorLoad(error);
       }
     }
   };
@@ -46,11 +43,11 @@ export const PostIndex = () => {
   return (
     <div className={classNames("font-light")}>
       <FormModal
-        successMessage="Post Updated successfully..."
+        successMessage={`Post ${id} Updated successfully...`}
         showModal={formModal}
         setShowModal={setFormModal}
-        title={data?.title}
-        body={data?.body}
+        title={states?.data?.title}
+        body={states?.data?.body}
         id={`${id}`}
       />
       <PromptModal
@@ -60,7 +57,7 @@ export const PostIndex = () => {
         setShowModal={setShowModal}
         handler={deleteHandler}
         id={`${id}`}
-        title={`${data?.title}`}
+        title={`${states?.data?.title}`}
         buttonText="Yes"
       />
 
@@ -71,10 +68,10 @@ export const PostIndex = () => {
           <div className={classNames("md:w-1/2")}>
             <div className="py-5">
               <p className={classNames("text-green-300 text-xl")}>
-                Title -- "{data?.title || "...."}"
+                Title -- "{states.data?.title || "...."}"
               </p>
               <p className="py-2 text-sm tracking-wide">
-                {data?.body || "...."}
+                {states?.data?.body || "...."}
               </p>
               <div className={classNames("flex gap-2")}>
                 <FiEdit

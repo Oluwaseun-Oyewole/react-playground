@@ -73,9 +73,7 @@ export const Modal = ({
             <div
               {...props}
               onClick={(e) => e.stopPropagation()}
-              className={`h-8 w-2/5 relative flex justify-center items-center px-4 text-center text-gray-300 z-30 text-lg font-medium ${
-                states.error ? "bg-red-500" : "bg-green-800"
-              }`}
+              className={`h-8 md:w-2/5 relative flex justify-center items-center px-4 text-center text-gray-300 z-30 text-xs w-[80%] md:text-base font-medium ${"bg-green-800"}`}
             >
               {children}
               <FaTimes
@@ -101,7 +99,7 @@ export const Modal = ({
           >
             <div
               className={classNames(
-                "bg-black md:w-[70%] lg:w-[50%] rounded-[2px] h-auto mx-auto md:m-auto p-10 pt-7 pr-6 text-sm md:text-base w-full"
+                "bg-black md:w-[85%] lg:w-[40%] rounded-[2px] md:h-auto mx-auto md:m-auto p-10 pt-7 md:pr-6 text-sm w-full"
               )}
               {...props}
               onClick={(e) => e.stopPropagation()}

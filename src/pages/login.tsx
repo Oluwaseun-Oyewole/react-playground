@@ -111,7 +111,7 @@ export const Login = () => {
                 size="medium"
                 className=""
                 type="password"
-                placeholder="confirmPassword"
+                placeholder="confirm Password"
                 errors={errors}
               />
             </FormField>
