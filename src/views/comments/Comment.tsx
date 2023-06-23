@@ -36,6 +36,7 @@ export const Comments = () => {
                       {el.map((e: any, i) => {
                         return (
                           <div
+                            key={i}
                             className={`${
                               isDarkMode ? "bg-gray-700" : "bg-dark"
                             } my-2 py-8 px-10 text-xs`}

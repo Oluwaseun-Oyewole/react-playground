@@ -46,7 +46,7 @@ export const Users = () => {
                   >
                     {el.map((e: any, i) => {
                       return (
-                        <Link to={`${e?.id}`}>
+                        <Link to={`${e?.id}`} key={i}>
                           <div
                             className={`${
                               isDarkMode ? "bg-gray-900" : "bg-dark"
