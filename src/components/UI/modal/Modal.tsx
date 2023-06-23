@@ -18,7 +18,6 @@ export const Modal = ({
   close,
   type = "dialog",
   children,
-  error,
   ...props
 }: ModalPropsType) => {
   const animationProps = useSpring({
@@ -73,7 +72,9 @@ export const Modal = ({
             <div
               {...props}
               onClick={(e) => e.stopPropagation()}
-              className={`h-8 md:w-2/5 relative flex justify-center items-center px-4 text-center text-gray-300 z-30 text-xs w-[80%] md:text-base font-medium ${"bg-green-800"}`}
+              className={`h-8 md:w-2/5 relative flex justify-center items-center px-4 text-center text-gray-300 z-30 text-xs w-[80%] md:text-lg font-medium ${
+                states.error ? "bg-red-500" : "bg-green-800"
+              }`}
             >
               {children}
               <FaTimes

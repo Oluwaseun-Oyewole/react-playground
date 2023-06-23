@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React, { useState } from "react";
-import ReactiveButton from "reactive-button";
 
 export interface ButtonProps
   extends React.DetailedHTMLProps<
@@ -19,17 +18,6 @@ export const Button = ({
   onClick,
   ...rest
 }: ButtonProps) => {
-  const [state, setState] = useState("idle");
-
-  const onClickHandler = () => {
-    setState("loading");
-
-    // send an HTTP request
-    setTimeout(() => {
-      setState("success");
-    }, 2000);
-  };
-
   return (
     <>
       <button
@@ -43,17 +31,6 @@ export const Button = ({
       >
         {children}
       </button>
-
-      {/* <ReactiveButton
-        type={type}
-        buttonState={state}
-        idleText="Submit"
-        loadingText="Loading"
-        successText="Done"
-        onClick={onClickHandler}
-        block={true}
-        color="blue"
-      /> */}
     </>
   );
 };

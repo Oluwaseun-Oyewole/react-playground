@@ -17,7 +17,7 @@ import { PostInterface } from "./Posts";
 export const PostIndex = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { status, data } = useFetch<PostInterface>(
+  const { status } = useFetch<PostInterface>(
     `http://jsonplaceholder.typicode.com/posts/${id}`
   );
 

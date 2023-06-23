@@ -9,7 +9,7 @@ import {
 interface State<T> {
   data?: any;
   status: string;
-  error?: any;
+  error?: T | any;
 }
 const initialState = {
   data: [],

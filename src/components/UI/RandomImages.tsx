@@ -13,7 +13,7 @@ import { Tilt } from "./Tilt";
 
 const RandomImages = () => {
   const images = [Img2, Img1, Img3, Img4, Img5, Img6, Img7, img8, img9, img10];
-  const [currentImageIndex, setCurrentImageIndex] = useState(
+  const [currentImageIndex] = useState(
     Math.floor(Math.random() * images.length)
   );
   const imgElement = useRef<any>(null);

@@ -1,10 +1,9 @@
 import { useEffect, useReducer, useRef } from "react";
-import { useLocation } from "react-router";
 import { z } from "zod";
 import { useFetchContextProvider } from "../context/fetch-context";
 
 interface State<T> {
-  data?: any;
+  data?: T | any;
   error?: Error;
   status: string;
 }
@@ -48,16 +47,7 @@ export function useFetch<T = unknown>(
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
   const { dispatcher } = useFetchContextProvider();
-  const { pathname } = useLocation();
 
-  // const handleDeleteRequest = async (endpoint: string) => {
-  //   try {
-  //     const response = await jsonInstance.delete(`${endpoint}`);
-  //     dispatch({ type: "fetched", payload: response?.data });
-  //   } catch (error) {
-  //     if (error instanceof Error) dispatch({ type: "error", payload: error });
-  //   }
-  // };
   useEffect(() => {
     if (!url) return;
 

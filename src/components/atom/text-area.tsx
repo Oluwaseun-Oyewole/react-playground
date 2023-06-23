@@ -61,5 +61,3 @@ export const FormTextArea = ({
     </>
   );
 };
-
-// isDarkMode ? "bg-gray-700" : "bg-dark"

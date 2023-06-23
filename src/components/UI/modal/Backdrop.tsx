@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { ReactElement } from "react";
 
 type BackdropPropsType = {
   show?: boolean;

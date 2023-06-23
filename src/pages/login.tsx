@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { instance } from "../api/axios";
 import { QuestionComponent } from "../components/UI/Question";
 import { Backdrop } from "../components/UI/modal/Backdrop";
 import { Modal } from "../components/UI/modal/Modal";

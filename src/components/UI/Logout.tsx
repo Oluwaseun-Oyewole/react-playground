@@ -1,11 +1,8 @@
 import classNames from "classnames";
-import { useState } from "react";
-import { FiLogOut } from "react-icons/fi";
 import { useLoginContextProvider } from "../../hooks/use-login-context";
 
 export const Logout = () => {
   const { handleLogout, token } = useLoginContextProvider();
-  const [pop, setPop] = useState(false);
 
   const logout = (
     <>

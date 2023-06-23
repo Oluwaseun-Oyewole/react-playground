@@ -100,7 +100,7 @@ export const useRegistrationForm = <T>() => {
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
-  const onSubmit = useCallback((formValues: RegistrationDataInterface) => {
+  const onSubmit = useCallback(() => {
     try {
       dispatch({ type: "login" });
       navigate("/login");
@@ -112,6 +112,7 @@ export const useRegistrationForm = <T>() => {
   }, []);
 
   return {
+    state,
     register,
     onSubmit: handleSubmit(onSubmit),
     errors,

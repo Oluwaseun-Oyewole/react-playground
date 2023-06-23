@@ -1,13 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { z } from "zod";
-import { useFetchContextProvider } from "../../context/fetch-context";
-import { useFetch } from "../../hooks/useFetch";
-import { PostSchema } from "../../model/Posts";
 
-const PostsResults = z.array(PostSchema);
+import { useFetch } from "../../hooks/useFetch";
+// import { PostSchema } from "../../model/Posts";
+
+// const PostsResults = z.array(PostSchema);
 
 export interface PostInterface {
   userId: number;
@@ -20,7 +18,6 @@ export const Posts = () => {
   const { status, error, data } = useFetch<PostInterface[]>(
     "http://jsonplaceholder.typicode.com/posts"
   );
-  // const { data } = useFetchContextProvider();
 
   const itemsPerPage = 20;
   const [itemOffset, setItemOffset] = useState(0);

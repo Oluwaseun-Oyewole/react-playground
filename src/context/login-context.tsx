@@ -58,7 +58,7 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     navigate("/signup");
   };
 
-  return { state, handleLogout, token, setToken };
+  return { state, handleLogout, token, setToken, dispatch };
 };
 
 type UseLoginContextType = ReturnType<typeof useLoginContext>;
@@ -70,6 +70,9 @@ const LoginContextInitialState: UseLoginContextType = {
   },
   token: "",
   setToken: () => {
+    /**/
+  },
+  dispatch: () => {
     /**/
   },
 };
