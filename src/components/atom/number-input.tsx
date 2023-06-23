@@ -1,8 +1,8 @@
 import { ErrorMessage } from "@hookform/error-message";
 import classNames from "classnames";
+import { useDarkMode } from "usehooks-ts";
 import { FormErrorMessgae } from "./error-mesage";
 import { Input } from "./input";
-
 export interface NumberProp {
   onChange: (val: number) => void;
   [key: string]: any;
@@ -21,13 +21,16 @@ export const NumberInput = ({
     onChange(value);
   };
 
+  const { isDarkMode } = useDarkMode();
   return (
     <>
       <Input
         type="number"
         size="medium"
         className={classNames(
-          "w-full text-gray-100 bg-gray-700 block px-5 outline-none transition-colors ease-in-out focus:border-blue-700"
+          `w-full text-gray-100 ${
+            isDarkMode ? "bg-gray-700" : "bg-dark"
+          } block px-5 outline-none transition-colors ease-in-out focus:border-blue-700`
         )}
         onChange={handleChange}
         {...rest}

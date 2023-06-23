@@ -51,12 +51,12 @@ const PromptModal = ({
             <p className="">title - {title}</p>
           </div>
 
-          <p className="text-white text-lg my-4">{promptMessage}</p>
+          <p className="text-white md:text-lg my-4">{promptMessage}</p>
           <div className="flex space-x-8 w-full my-7">
             <Button children="Cancel" onClick={() => setShowModal(false)} />
             <Button
               children={buttonText}
-              className="bg-red-500 hover:opacity-90 hover:bg-red-500"
+              className="bg-red-500 hover:opacity-90 hover:bg-red-500 "
               onClick={promptHandler}
             />
           </div>

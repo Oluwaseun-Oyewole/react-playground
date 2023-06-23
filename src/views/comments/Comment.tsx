@@ -16,7 +16,7 @@ export const Comments = () => {
   const dt = chunk(data, 3);
 
   return (
-    <div className={classNames("font-light")}>
+    <div className={classNames("font-light text-sm md:text-xl")}>
       <section>
         <p> status -- {status}</p>
         <p> Comment For Post {id}</p>
@@ -29,13 +29,16 @@ export const Comments = () => {
               <div>
                 {value.map((el, id) => {
                   return (
-                    <div key={id} className="flex gap-5 ">
+                    <div
+                      key={id}
+                      className=" text-sm flex-col md:flex-row flex gap-5 "
+                    >
                       {el.map((e: any, i) => {
                         return (
                           <div
                             className={`${
                               isDarkMode ? "bg-gray-700" : "bg-dark"
-                            } my-2 py-14 px-10`}
+                            } my-2 py-8 px-10 text-xs`}
                           >
                             <p className="text-green-300 ">Name : {e.name}</p>
                             <p className="text-green-500 py-1">
@@ -52,7 +55,7 @@ export const Comments = () => {
             );
           })}
         </div>
-        <div className="w-3/12">
+        <div className="md:w-3/12">
           <Button
             children="Go back"
             className="bg-gray-500"

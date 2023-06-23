@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback, useMemo, useReducer } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { RegistrationDataInterface } from "../model/User";
 
@@ -20,13 +21,23 @@ export const useRegistrationForm = <T>() => {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        username: yup.string().required("Username is required"),
+        username: yup
+          .string()
+          .required("Username is required")
+          .min(10, "Username must be at least 10 characters")
+          .matches(/^[A-z][A-z0-9-_]{0,23}$/, "No white spaces"),
         age: yup
           .number()
           .required("Age is required")
           .positive({ message: "number must be positive" }),
         email: yup.string().email().required("Email is required"),
-        password: yup.string().required("Password is requred"),
+        password: yup
+          .string()
+          .required("Password is required")
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/,
+            "Password must contain a capital letter, small letter and special characters"
+          ),
         passwordConfirmation: yup.string().test({
           name: "password-confirmation",
           message: "Passwords need to match",
@@ -48,7 +59,7 @@ export const useRegistrationForm = <T>() => {
     error: undefined,
   };
 
-  function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
+  function signupReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
     switch (action.type) {
       case "login": {
         return {
@@ -75,7 +86,9 @@ export const useRegistrationForm = <T>() => {
     }
   }
 
-  const [state, dispatch] = useReducer(loginReducer, initialState);
+  const [state, dispatch] = useReducer(signupReducer, initialState);
+
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -90,17 +103,13 @@ export const useRegistrationForm = <T>() => {
   const onSubmit = useCallback((formValues: RegistrationDataInterface) => {
     try {
       dispatch({ type: "login" });
-      console.log(formValues);
+      navigate("/login");
     } catch (error) {
       if (error instanceof Error) {
         dispatch({ type: "error", payload: error });
       }
     }
   }, []);
-
-  const handleLogout = () => {
-    dispatch({ type: "logout" });
-  };
 
   return {
     register,
@@ -109,6 +118,5 @@ export const useRegistrationForm = <T>() => {
     reset,
     control,
     Controller,
-    handleLogout,
   };
 };

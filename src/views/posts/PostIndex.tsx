@@ -23,15 +23,13 @@ export const PostIndex = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [formModal, setFormModal] = useState(false);
-  const { states, fetchedLoad, errorLoad } = useFetchContextProvider();
 
-  // console.log("data from state post", states.data);
-
+  const { states, dispatcher, errorLoad } = useFetchContextProvider();
   const deleteHandler = async () => {
     const res = await jsonInstance.delete(`/posts/${id}`);
     try {
       const data = res?.data;
-      fetchedLoad(data);
+      dispatcher({ type: "fetched", payload: data });
       if (res?.status === 200) {
         navigate("/dashboard/posts");
       }
@@ -42,16 +40,14 @@ export const PostIndex = () => {
     }
   };
 
-  console.log("data from post details", data);
-
   return (
     <div className={classNames("font-light")}>
       <FormModal
-        successMessage="Post Updated successfully..."
+        successMessage={`Post ${id} Updated successfully...`}
         showModal={formModal}
         setShowModal={setFormModal}
-        title={data?.title}
-        body={data?.body}
+        title={states?.data?.title}
+        body={states?.data?.body}
         id={`${id}`}
       />
       <PromptModal
@@ -61,21 +57,21 @@ export const PostIndex = () => {
         setShowModal={setShowModal}
         handler={deleteHandler}
         id={`${id}`}
-        title={`${data?.title}`}
+        title={`${states?.data?.title}`}
         buttonText="Yes"
       />
 
       <>
-        <h2 className="text-2xl">Current Post ID is {id}</h2>
+        <h2 className=" text-sm md:text-2xl">Current Post ID is {id}</h2>
         <p className={classNames("py-2")}>Current Status --- {status}</p>
-        <div className="items-center flex gap-10 h-[500px]">
-          <div className={classNames("w-1/2")}>
+        <div className="flex-col md:flex-row md:items-center flex gap-10 h-[500px]">
+          <div className={classNames("md:w-1/2")}>
             <div className="py-5">
               <p className={classNames("text-green-300 text-xl")}>
-                Title -- "{data?.title || "...."}"
+                Title -- "{states.data?.title || "...."}"
               </p>
               <p className="py-2 text-sm tracking-wide">
-                {data?.body || "...."}
+                {states?.data?.body || "...."}
               </p>
               <div className={classNames("flex gap-2")}>
                 <FiEdit
@@ -103,7 +99,7 @@ export const PostIndex = () => {
             </div>
           </div>
 
-          <div className={classNames("w-1/2")}>
+          <div className={classNames("md:w-1/2")}>
             <RandomImages />
           </div>
         </div>

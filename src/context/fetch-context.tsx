@@ -12,7 +12,7 @@ interface State<T> {
   error?: any;
 }
 const initialState = {
-  data: undefined,
+  data: [],
   status: "",
   error: undefined,
 };
@@ -82,6 +82,7 @@ export const FetchContext =
 type ChildrenStateType = {
   children?: ReactElement | undefined;
 };
+
 export const FetchContextProvider = ({ children }: ChildrenStateType) => {
   return (
     <FetchContext.Provider value={useContextReducer()}>

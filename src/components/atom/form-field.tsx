@@ -18,7 +18,10 @@ export const FormField = ({
     <>
       <label
         htmlFor={id}
-        className={classNames("text-green-500 block mb-1", className)}
+        className={classNames(
+          "text-green-500 block mb-1 my-3 text-sm md:text-base md:my-0 text-base",
+          className
+        )}
       >
         {label}
       </label>
