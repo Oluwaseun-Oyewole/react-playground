@@ -10,19 +10,24 @@ export interface RegistrationDataInterface {
 
 export const LoginModel = z
   .object({
-    username: z
-      .string({
-        required_error: "Username is required!!!",
-        invalid_type_error: "Username must be a string",
-      })
-      .nonempty({ message: "Username is required" })
-      .regex(/^[A-z][A-z0-9-_]{0,23}$/, {
-        message: "Username should not contain a space e.g. MikeJaden",
-      })
-      .min(5, { message: "Username must be at least 5 characters long" })
-      .refine((val) => val.length <= 10, {
-        message: "Username can't be more than 10 characters",
-      }),
+    // username: z
+    //   .string({
+    //     required_error: "Username is required!!!",
+    //     invalid_type_error: "Username must be a string",
+    //   })
+    //   .nonempty({ message: "Username is required" })
+    //   .regex(/^[A-z][A-z0-9-_]{0,23}$/, {
+    //     message: "Username should not contain a space e.g. MikeJaden",
+    //   })
+    //   .min(5, { message: "Username must be at least 5 characters long" })
+    //   .refine((val) => val.length <= 10, {
+    //     message: "Username can't be more than 10 characters",
+    //   }),
+    email: z
+      .string()
+      .trim()
+      .min(5, { message: "Email Must be 5 or charcaters.." })
+      .email("Email is not valid"),
     password: z
       .string()
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/, {

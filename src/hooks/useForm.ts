@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { RegistrationDataInterface } from "../model/User";
+import { useLoginContextProvider } from "./use-login-context";
 
 type ACTIONTYPE<T> =
   | { type: "login" }
@@ -18,6 +19,8 @@ interface State<T> {
 }
 
 export const useRegistrationForm = <T>() => {
+  const { createUserAuthentication } = useLoginContextProvider();
+
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
@@ -34,6 +37,7 @@ export const useRegistrationForm = <T>() => {
         password: yup
           .string()
           .required("Password is required")
+          .min(10, "Password must be at least 10 characters")
           .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/,
             "Password must contain a capital letter, small letter and special characters"
@@ -100,16 +104,22 @@ export const useRegistrationForm = <T>() => {
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
-  const onSubmit = useCallback(() => {
-    try {
-      dispatch({ type: "login" });
-      navigate("/login");
-    } catch (error) {
-      if (error instanceof Error) {
-        dispatch({ type: "error", payload: error });
+  const onSubmit = useCallback(
+    async (formvalues: RegistrationDataInterface) => {
+      console.log("formValues", formvalues);
+
+      try {
+        dispatch({ type: "login" });
+        await createUserAuthentication(formvalues?.email, formvalues?.password);
+        navigate("/login");
+      } catch (error) {
+        if (error instanceof Error) {
+          dispatch({ type: "error", payload: error });
+        }
       }
-    }
-  }, []);
+    },
+    []
+  );
 
   return {
     state,

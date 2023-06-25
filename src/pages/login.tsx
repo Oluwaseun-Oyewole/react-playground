@@ -1,10 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { QuestionComponent } from "../components/UI/Question";
-import { Backdrop } from "../components/UI/modal/Backdrop";
-import { Modal } from "../components/UI/modal/Modal";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
@@ -12,9 +10,8 @@ import { FormInput } from "../components/molescules/form-input";
 import { useLoginContextProvider } from "../hooks/use-login-context";
 import type { LoginModelType } from "../model/User";
 import { LoginModel } from "../model/User";
-
 export const Login = () => {
-  const { setToken } = useLoginContextProvider();
+  const { setToken, login } = useLoginContextProvider();
 
   const {
     handleSubmit,
@@ -25,18 +22,20 @@ export const Login = () => {
     mode: "onChange",
   });
   const [maliciousIntent, setMaliciousIntent] = useState("");
+  const [error, setError] = useState<any | null>();
+  const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = async (formValues: LoginModelType) => {
     // For Funny Users With Malicious Intentions
     // We re-run the valiation again
-    const username_regex = /^[A-z][A-z0-9-_]{3,23}$/;
+
     const password_regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-    const v1 = username_regex.test(formValues.username);
+    const v1 = formValues.email;
     const v2 = password_regex.test(formValues.password);
     if (!v1 || !v2) {
-      setMaliciousIntent("Malicious Intension....");
+      setMaliciousIntent("Malicious Intension");
       return;
     }
     try {
@@ -49,39 +48,42 @@ export const Login = () => {
       //   }
       // );
       // const data = await response.data;
+      setLoading("loading.....");
+      const response = await login(formValues.email, formValues.password);
 
-      if (
-        formValues.username === "Samuel" &&
-        formValues.password === "Samuel2023@"
-      ) {
-        navigate("/dashboard");
-        setToken("12345");
-      }
+      const {
+        _tokenResponse: { idToken },
+      }: any = response;
+      setToken(idToken);
+      navigate("/dashboard");
+      setLoading("");
     } catch (error) {
       if (error instanceof Error) {
-        console.log("error", error);
+        setError({ ...error, message: error.message });
+        setLoading("");
       }
     }
   };
 
-  // useEffect(() => {}, []);
-
   return (
     <div>
-      <InfoModal />
       <h1>{maliciousIntent && maliciousIntent}</h1>
+      <p>{loading}</p>
+      <p aria-invalid={error?.message} className="text-red-500">
+        {error && error?.message}
+      </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet label="Login Form">
           <>
-            <FormField label="Username" id="username">
+            <FormField label="Email" id="email">
               <FormInput<LoginModelType>
-                id="username"
-                type="text"
+                id="email"
+                type="email"
                 size="medium"
-                label="name"
-                name="username"
+                label="email"
+                name="email"
                 className=""
-                placeholder="Full Name"
+                placeholder="Email Address"
                 autoFocus={true}
                 register={register}
                 errors={errors}
@@ -130,19 +132,19 @@ export const Login = () => {
   );
 };
 
-export const InfoModal = () => {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    setShow(true);
-  }, []);
-  return (
-    <>
-      <Backdrop />
-      <Modal
-        show={show}
-        close={() => setShow(false)}
-        children={"FullName -- Samuel, Password -- Samuel2023@"}
-      />
-    </>
-  );
-};
+// export const InfoModal = () => {
+//   const [show, setShow] = useState(false);
+//   useEffect(() => {
+//     setShow(true);
+//   }, []);
+//   return (
+//     <>
+//       <Backdrop />
+//       <Modal
+//         show={show}
+//         close={() => setShow(false)}
+//         children={"FullName -- Samuel, Password -- Samuel2023@"}
+//       />
+//     </>
+//   );
+// };

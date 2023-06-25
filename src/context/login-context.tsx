@@ -1,5 +1,18 @@
-import { ReactElement, createContext, useReducer, useState } from "react";
-import { useNavigate } from "react-router";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { UserCredential } from "firebase/auth/cordova";
+import {
+  ReactElement,
+  createContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import { auth } from "../config/firebase";
 
 type ACTIONTYPE<T> =
   | { type: "login" }
@@ -49,32 +62,65 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
-  const [token, setToken] = useState<string>("");
-  const navigate = useNavigate();
+  const [token, setToken] = useState<any | string>("");
+  const [user, setUser] = useState<any>(null);
 
-  const handleLogout = () => {
-    // dispatch({ type: "logout" });
-    setToken("");
-    navigate("/signup");
+  const createUserAuthentication = async (
+    email: string,
+    password: string
+  ): Promise<UserCredential | void> => {
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  return { state, handleLogout, token, setToken, dispatch };
+  const login = (
+    email: string,
+    password: string
+  ): Promise<UserCredential | void> => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+  const handleLogout = async (): Promise<void> => {
+    dispatch({ type: "logout" });
+    setToken("");
+    await signOut(auth);
+  };
+
+  useEffect(() => {
+    const unsuscribed = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsuscribed();
+  }, []);
+
+  return {
+    state,
+    handleLogout,
+    token,
+    setToken,
+    dispatch,
+    createUserAuthentication,
+    user,
+    login,
+  };
 };
 
 type UseLoginContextType = ReturnType<typeof useLoginContext>;
 
 const LoginContextInitialState: UseLoginContextType = {
   state: initialState,
-  handleLogout: () => {
+  handleLogout: async () => {
     /**/
   },
   token: "",
+  user: null,
   setToken: () => {
     /**/
   },
   dispatch: () => {
     /**/
   },
+  createUserAuthentication: () => Promise.resolve(),
+
+  login: () => Promise.resolve(),
 };
 
 export const LoginContext = createContext<UseLoginContextType>(
