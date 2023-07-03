@@ -1,0 +1,7 @@
+export const users:{
+
+    i:{
+        name:"Seun"
+    }
+
+}

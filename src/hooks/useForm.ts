@@ -29,10 +29,10 @@ export const useRegistrationForm = <T>() => {
           .required("Username is required")
           .min(10, "Username must be at least 10 characters")
           .matches(/^[A-z][A-z0-9-_]{0,23}$/, "No white spaces"),
-        age: yup
-          .number()
-          .required("Age is required")
-          .positive({ message: "number must be positive" }),
+        // age: yup
+        //   .number()
+        //   .required("Age is required")
+        //   .positive({ message: "number must be positive" }),
         email: yup.string().email().required("Email is required"),
         password: yup
           .string()

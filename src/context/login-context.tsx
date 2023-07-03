@@ -1,8 +1,13 @@
 import {
+  User,
   createUserWithEmailAndPassword,
+  getAuth,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  updateProfile,
 } from "firebase/auth";
 import { UserCredential } from "firebase/auth/cordova";
 import {
@@ -62,7 +67,7 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
-  const [token, setToken] = useState<any | string>("");
+  const [token, setToken] = useState<any | string>("12345");
   const [user, setUser] = useState<any>(null);
 
   const createUserAuthentication = async (
@@ -91,6 +96,29 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     return () => unsuscribed();
   }, []);
 
+  const auth = getAuth();
+
+  const updateUserProfile = async (
+    name: string,
+    photoUrl: string
+  ): Promise<UserCredential | void> => {
+    try {
+      await updateProfile(auth?.currentUser, {
+        displayName: name,
+        photoURL: photoUrl,
+      });
+    } catch (error) {
+      console.log("error state", error);
+    }
+  };
+
+  const emailVerification = async (): Promise<User | void> => {
+    try {
+      await sendEmailVerification(auth?.currentUser);
+    } catch (error) {
+      console.log("error email verification", error);
+    }
+  };
   return {
     state,
     handleLogout,
@@ -100,6 +128,8 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     createUserAuthentication,
     user,
     login,
+    updateUserProfile,
+    emailVerification,
   };
 };
 
@@ -121,6 +151,8 @@ const LoginContextInitialState: UseLoginContextType = {
   createUserAuthentication: () => Promise.resolve(),
 
   login: () => Promise.resolve(),
+  updateUserProfile: () => Promise.resolve(),
+  emailVerification: () => Promise.resolve(),
 };
 
 export const LoginContext = createContext<UseLoginContextType>(

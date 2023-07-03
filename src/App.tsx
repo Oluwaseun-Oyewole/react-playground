@@ -3,7 +3,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { FetchContextProvider } from "./context/fetch-context";
 import { LoginContextProvider } from "./context/login-context";
 import { Layout } from "./layout";
+import { ChangePassword } from "./pages/change-password";
 import { Login } from "./pages/login";
+import { PasswordReset } from "./pages/password-reset";
 import { Signup } from "./pages/signup";
 import { PrivateRoute } from "./routes/protected-routes";
 import { Dashboard } from "./views/Dashboard";
@@ -27,6 +29,8 @@ function App() {
             <Route element={<Layout />}>
               <Route path="login" element={<Login />} />
               <Route index path="signup" element={<Signup />} />
+              <Route path="change-password" element={<ChangePassword />} />
+              <Route path="password-reset" element={<PasswordReset />} />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<Dashboard />}>
                   <Route path="users" element={<Users />}>
@@ -35,14 +39,14 @@ function App() {
                   <Route path="posts" element={<Posts />}>
                     <Route path=":id" element={<PostDetail />}>
                       <Route index element={<PostIndex />} />
-                      <Route path="comments" element={<Comments />}>
+                      <Route path="comments/:id" element={<Comments />} />
+                      {/* <Route path="comments" element={<Comments />}>
                         <Route index element={<Comments />} />
-                      </Route>
+                      </Route> */}
                     </Route>
                   </Route>
                 </Route>
               </Route>
-
               <Route path="*" element={<Navigate to="/signup" replace />} />
             </Route>
           </Routes>

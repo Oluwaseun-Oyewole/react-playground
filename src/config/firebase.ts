@@ -1,6 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCnkqZsoqBZJQXLOZuYuYEcdxaXW1c8p08",
@@ -14,3 +14,48 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+// SELECT * FROM Users WHERE UID = 1
+// const rootRef = firebase.database().ref();
+// const oneRef = rootRef.child("users").child("1");
+// users:{
+//   "1":{
+//     "name":"Seun",
+//     "eaml":"ghjkl;"
+//   }
+// }
+
+// SELECT * FROM Users WHERE email = ""
+// const rootRef = firebase.database().ref();
+// const emailRef = rootRef
+//   .child("Users")
+//   .orderByChild("email")
+//   .equalTo("findseunoyewole@gmail.");
+
+// // SELECT * FROM Users LIMIT 10
+// const limitRef = rootRef.child("Users").orderByKey().limitToFirst(10);
+
+// // SELECT * FROM Users WHERE Name LIKE "D%"
+// const nameREf = rootRef
+//   .child("Users")
+//   .orderByChild("name")
+//   .startAt("D")
+//   .endAt("D\uf8ff");
+
+// // SELECT * FROM Users WHERE Age < 50
+// const ageLessThanRef = rootRef.child("Users").orderByChild("Age").endAt(49);
+
+// // SELECT * FROM Users WHERE Age < 50
+// const ageGreaterThanRef = rootRef
+//   .child("Users")
+//   .orderByChild("Age")
+//   .startAt(51);
+
+// const ageRange = rootRef
+//   .child("Users")
+//   .orderByChild("Age")
+//   .startAt(20)
+//   .endAt(101);
+
+// const userAgeRef = rootRef.child("Users").orderByChild("Age").equalTo(20);

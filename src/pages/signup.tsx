@@ -18,7 +18,7 @@ export const Signup = () => {
         <FieldSet label="Signup Form">
           <>
             <FormField label="Username" id="username">
-              <FormInput
+              <FormInput<RegistrationDataInterface>
                 id="username"
                 type="text"
                 size="medium"
@@ -33,7 +33,7 @@ export const Signup = () => {
               />
             </FormField>
             <FormField label="Email" id="email">
-              <FormInput
+              <FormInput<RegistrationDataInterface>
                 id="email"
                 type="email"
                 size="medium"
@@ -45,7 +45,7 @@ export const Signup = () => {
                 errors={errors}
               />
             </FormField>
-            <FormField id="age" label="Age">
+            {/* <FormField id="age" label="Age">
               <Controller
                 name="age"
                 control={control}
@@ -60,7 +60,7 @@ export const Signup = () => {
                   />
                 )}
               />
-            </FormField>
+            </FormField> */}
             <FormField label="Password" id="password">
               <FormInput<RegistrationDataInterface>
                 id="password"

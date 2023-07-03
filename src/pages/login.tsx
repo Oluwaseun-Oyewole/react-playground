@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { QuestionComponent } from "../components/UI/Question";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
@@ -10,8 +11,9 @@ import { FormInput } from "../components/molescules/form-input";
 import { useLoginContextProvider } from "../hooks/use-login-context";
 import type { LoginModelType } from "../model/User";
 import { LoginModel } from "../model/User";
+
 export const Login = () => {
-  const { setToken, login } = useLoginContextProvider();
+  const { setToken, login, user } = useLoginContextProvider();
 
   const {
     handleSubmit,
@@ -87,7 +89,7 @@ export const Login = () => {
                 autoFocus={true}
                 register={register}
                 errors={errors}
-                autoComplete="off"
+                // autoComplete="off"
               />
             </FormField>
 
@@ -123,28 +125,14 @@ export const Login = () => {
           <Button children="submit" type="submit" />
         </FieldSet>
       </form>
+      <Link to="/password-reset" className="text-green-300">
+        Forgot password?
+      </Link>
       <QuestionComponent
         path="/signup"
         children="SignUp"
-        message="Already Signup ?"
+        message="Already Signup?"
       />
     </div>
   );
 };
-
-// export const InfoModal = () => {
-//   const [show, setShow] = useState(false);
-//   useEffect(() => {
-//     setShow(true);
-//   }, []);
-//   return (
-//     <>
-//       <Backdrop />
-//       <Modal
-//         show={show}
-//         close={() => setShow(false)}
-//         children={"FullName -- Samuel, Password -- Samuel2023@"}
-//       />
-//     </>
-//   );
-// };

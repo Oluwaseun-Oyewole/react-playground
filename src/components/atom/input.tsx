@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react";
 import { useDarkMode } from "usehooks-ts";
 
-type InputType = "text" | "email" | "password" | "number";
+type InputType = "text" | "email" | "password" | "number" | "file";
 type InputSize = "small" | "medium" | "large";
 
 export type InputPropsType = {
@@ -42,12 +42,10 @@ export const Input = forwardRef<HTMLInputElement, InputPropsType>(
     return (
       <input
         onPaste={(e: any) => {
-          e.preventDefault();
-          return type === "password" ? false : true;
+          return type === "password" && e.preventDefault();
         }}
         onCopy={(e: any) => {
-          e.preventDefault();
-          return type === "password" ? false : true;
+          return type === "password" && e.preventDefault();
         }}
         type={type}
         id={id}

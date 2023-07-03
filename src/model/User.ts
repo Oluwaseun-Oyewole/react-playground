@@ -2,11 +2,22 @@ import { z } from "zod";
 
 export interface RegistrationDataInterface {
   username: string;
-  age: number;
+  // age: number;
   email: string;
   password: string;
-  passwordConfirmation: string;
+  passwordConfirmation: string | undefined;
 }
+
+export interface UpdateUserProfileForm {
+  name: string;
+  photoURL: string;
+}
+
+export const UserUpdateModel = z.object({
+  name: z.string().min(5, { message: "Name must be at least 5 characters" }),
+  photoURL: z.string(),
+});
+export type UpdateUserModelType = z.infer<typeof UserUpdateModel>;
 
 export const LoginModel = z
   .object({
@@ -45,6 +56,36 @@ export const LoginModel = z
   });
 
 export type LoginModelType = z.infer<typeof LoginModel>;
+
+export const PasswordModel = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(5, { message: "Email Must be 5 or charcaters.." })
+    .email("Email is not valid"),
+});
+
+export type PasswordModelType = z.infer<typeof PasswordModel>;
+
+export const PasswordResetModel = z
+  .object({
+    password: z
+      .string()
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/, {
+        message:
+          "Password must contain a capital letter, small letter and special characters",
+      })
+      .min(10, {
+        message: "Password character must be less than 10 characters",
+      }),
+    passwordConfirmation: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "Passwords don't match",
+    path: ["passwordConfirmation"], // path of error
+  });
+
+export type PasswordResetModelType = z.infer<typeof PasswordResetModel>;
 
 export const BasicUserSchema = z.object({
   name: z

@@ -15,9 +15,14 @@ export const PostUpdateModel = z.object({
     })
     .min(5, { message: "Title must be at least 5 characters..." }),
 
-  description: z
-    .string()
-    .min(30, { message: "Description must be at least 30 characters" }),
+  body: z.string().min(30, { message: "body must be at least 30 characters" }),
 });
 
 export type PostUpdateModelType = z.infer<typeof PostUpdateModel>;
+
+export const CommentCreateModel = z.object({
+  description: z
+    .string()
+    .min(30, { message: "body must be at least 30 characters" }),
+});
+export type CommentCreateModelType = z.infer<typeof CommentCreateModel>;
