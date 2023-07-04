@@ -3,7 +3,9 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { QuestionComponent } from "../components/UI/Question";
+import { Modal } from "../components/UI/modal/Modal";
 import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
@@ -16,6 +18,7 @@ export const PasswordReset = () => {
     handleSubmit,
     formState: { errors },
     register,
+    reset,
   } = useForm<PasswordModelType>({
     resolver: zodResolver(PasswordModel),
     mode: "onChange",
@@ -24,6 +27,7 @@ export const PasswordReset = () => {
   const [error, setError] = useState<any | null>();
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
+  const [showPostAction, setPostAction] = useState(false);
 
   const auth = getAuth();
 
@@ -31,7 +35,9 @@ export const PasswordReset = () => {
     try {
       setLoading("loading.....");
       await sendPasswordResetEmail(auth, formValues?.email);
-      navigate("/login");
+      setPostAction(true);
+      reset();
+      // navigate("/login");
       setLoading("");
     } catch (error) {
       if (error instanceof Error) {
@@ -43,6 +49,23 @@ export const PasswordReset = () => {
 
   return (
     <div>
+      <Modal
+        type="postAction"
+        show={showPostAction}
+        close={() => {
+          setPostAction(false);
+        }}
+      >
+        <div className="flex items-center gap-5">
+          <p className={`${error && "text-red-500"} text-sm`}>
+            Check your mail for confirmation
+          </p>
+          <Link to="/login" className="text-xs text-gray-100">
+            Back to login
+          </Link>
+        </div>
+      </Modal>
+
       <p>{loading}</p>
       <p aria-invalid={error?.message} className="text-red-500">
         {error && error?.message}

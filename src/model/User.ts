@@ -37,8 +37,8 @@ export const LoginModel = z
     email: z
       .string()
       .trim()
-      .min(5, { message: "Email Must be 5 or charcaters.." })
-      .email("Email is not valid"),
+      .min(1, { message: "Email cannot be empty." })
+      .email("This is not a valid email."),
     password: z
       .string()
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{0,24}$/, {
@@ -61,8 +61,8 @@ export const PasswordModel = z.object({
   email: z
     .string()
     .trim()
-    .min(5, { message: "Email Must be 5 or charcaters.." })
-    .email("Email is not valid"),
+    .min(1, { message: "Email cannot be empty." })
+    .email("This is not a valid email."),
 });
 
 export type PasswordModelType = z.infer<typeof PasswordModel>;

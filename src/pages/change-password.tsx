@@ -8,14 +8,10 @@ import { Button } from "../components/atom/button";
 import { FieldSet } from "../components/atom/field-set";
 import { FormField } from "../components/atom/form-field";
 import { FormInput } from "../components/molescules/form-input";
-import { useLoginContextProvider } from "../hooks/use-login-context";
-
 import type { PasswordResetModelType } from "../model/User";
 import { PasswordResetModel } from "../model/User";
 
 export const ChangePassword = () => {
-  const { user } = useLoginContextProvider();
-
   const {
     handleSubmit,
     formState: { errors },
@@ -29,7 +25,7 @@ export const ChangePassword = () => {
   const [loading, setLoading] = useState("");
   const navigate = useNavigate();
 
-  const auth = getAuth();
+  const auth: any = getAuth();
 
   const onSubmit = async (formValues: PasswordResetModelType) => {
     try {
@@ -87,7 +83,7 @@ export const ChangePassword = () => {
         </FieldSet>
       </form>
 
-      <QuestionComponent path="/login" children="Back to login" message="" />
+      <QuestionComponent path="/dashboard" children="Dashboard" message="" />
     </div>
   );
 };

@@ -6,7 +6,6 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
-  updateEmail,
   updateProfile,
 } from "firebase/auth";
 import { UserCredential } from "firebase/auth/cordova";
@@ -17,12 +16,12 @@ import {
   useReducer,
   useState,
 } from "react";
-import { auth } from "../config/firebase";
+import { useLocalStorage } from "usehooks-ts";
 
 type ACTIONTYPE<T> =
   | { type: "login" }
   | { type: "success"; payload: T }
-  | { type: "error"; payload: Error }
+  | { type: "error"; payload: Error | any }
   | { type: "logout" };
 
 interface State<T> {
@@ -67,8 +66,9 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
-  const [token, setToken] = useState<any | string>("12345");
-  const [user, setUser] = useState<any>(null);
+  const [token, setToken] = useState<object>({});
+  const [user, setUser] = useState<object | null>({});
+  const [persist, setPersist] = useState();
 
   const createUserAuthentication = async (
     email: string,
@@ -84,9 +84,13 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
   const handleLogout = async (): Promise<void> => {
-    dispatch({ type: "logout" });
-    setToken("");
-    await signOut(auth);
+    try {
+      dispatch({ type: "logout" });
+      setToken({});
+      await signOut(auth);
+    } catch (error) {
+      dispatch({ type: "error", payload: error });
+    }
   };
 
   useEffect(() => {
@@ -96,7 +100,7 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     return () => unsuscribed();
   }, []);
 
-  const auth = getAuth();
+  const auth: any = getAuth();
 
   const updateUserProfile = async (
     name: string,
@@ -116,7 +120,7 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     try {
       await sendEmailVerification(auth?.currentUser);
     } catch (error) {
-      console.log("error email verification", error);
+      console.log("Email verification Failed!!", error);
     }
   };
   return {
@@ -140,7 +144,7 @@ const LoginContextInitialState: UseLoginContextType = {
   handleLogout: async () => {
     /**/
   },
-  token: "",
+  token: {},
   user: null,
   setToken: () => {
     /**/

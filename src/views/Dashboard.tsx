@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import { ReactElement, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { MdWifiPassword } from "react-icons/md";
@@ -93,7 +94,7 @@ export const Dashboard = () => {
         </>
       </button>
 
-      <Link to="/password-reset" className="flex gap-3 items-center">
+      <Link to="/change-password" className="flex gap-3 items-center">
         Change your password <MdWifiPassword />
       </Link>
 

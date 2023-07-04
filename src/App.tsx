@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { PersistentLogin } from "./components/molescules/persistent-login";
 import { FetchContextProvider } from "./context/fetch-context";
 import { LoginContextProvider } from "./context/login-context";
 import { Layout } from "./layout";
@@ -31,23 +32,30 @@ function App() {
               <Route index path="signup" element={<Signup />} />
               <Route path="change-password" element={<ChangePassword />} />
               <Route path="password-reset" element={<PasswordReset />} />
-              <Route element={<PrivateRoute />}>
-                <Route path="dashboard" element={<Dashboard />}>
-                  <Route path="users" element={<Users />}>
-                    <Route index path=":id" element={<UserDetails />} />
-                  </Route>
-                  <Route path="posts" element={<Posts />}>
-                    <Route path=":id" element={<PostDetail />}>
-                      <Route index element={<PostIndex />} />
-                      <Route path="comments/:id" element={<Comments />} />
-                      {/* <Route path="comments" element={<Comments />}>
+
+              {/* Protected Routes... */}
+              {/* Testing Persist Login Compoent */}
+
+              <Route element={<PersistentLogin />}>
+                <Route element={<PrivateRoute />}>
+                  <Route path="dashboard" element={<Dashboard />}>
+                    <Route path="users" element={<Users />}>
+                      <Route index path=":id" element={<UserDetails />} />
+                    </Route>
+                    <Route path="posts" element={<Posts />}>
+                      <Route path=":id" element={<PostDetail />}>
+                        <Route index element={<PostIndex />} />
+                        <Route path="comments/:id" element={<Comments />} />
+                        {/* <Route path="comments" element={<Comments />}>
                         <Route index element={<Comments />} />
                       </Route> */}
+                      </Route>
                     </Route>
                   </Route>
                 </Route>
               </Route>
-              <Route path="*" element={<Navigate to="/signup" replace />} />
+
+              <Route path="*" element={<Navigate to="/login" replace />} />
             </Route>
           </Routes>
         </FetchContextProvider>

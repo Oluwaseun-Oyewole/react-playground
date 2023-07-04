@@ -54,9 +54,12 @@ export const Login = () => {
       const response = await login(formValues.email, formValues.password);
 
       const {
-        _tokenResponse: { idToken },
+        _tokenResponse: { idToken, refreshToken },
       }: any = response;
       setToken(idToken);
+
+      console.log("idToken: " + idToken);
+      console.log("refreshToken: " + refreshToken);
       navigate("/dashboard");
       setLoading("");
     } catch (error) {
@@ -125,7 +128,7 @@ export const Login = () => {
           <Button children="submit" type="submit" />
         </FieldSet>
       </form>
-      <Link to="/password-reset" className="text-green-300">
+      <Link to="/password-reset" className="text-blue-500">
         Forgot password?
       </Link>
       <QuestionComponent
