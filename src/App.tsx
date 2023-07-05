@@ -9,13 +9,11 @@ import { Login } from "./pages/login";
 import { PasswordReset } from "./pages/password-reset";
 import { Signup } from "./pages/signup";
 import { PrivateRoute } from "./routes/protected-routes";
-import { Dashboard } from "./views/Dashboard";
 import { Comments } from "./views/comments/Comment";
 import { PostDetail } from "./views/posts/PostDetail";
 import { PostIndex } from "./views/posts/PostIndex";
 import { Posts } from "./views/posts/Posts";
 import { Users } from "./views/users";
-import { UserDetails } from "./views/users/UserDetails";
 
 function App() {
   return (
@@ -34,22 +32,13 @@ function App() {
               <Route path="password-reset" element={<PasswordReset />} />
 
               {/* Protected Routes... */}
-              {/* Testing Persist Login Compoent */}
-
               <Route element={<PersistentLogin />}>
                 <Route element={<PrivateRoute />}>
-                  <Route path="dashboard" element={<Dashboard />}>
-                    <Route path="users" element={<Users />}>
-                      <Route index path=":id" element={<UserDetails />} />
-                    </Route>
-                    <Route path="posts" element={<Posts />}>
-                      <Route path=":id" element={<PostDetail />}>
-                        <Route index element={<PostIndex />} />
-                        <Route path="comments/:id" element={<Comments />} />
-                        {/* <Route path="comments" element={<Comments />}>
-                        <Route index element={<Comments />} />
-                      </Route> */}
-                      </Route>
+                  <Route path="users" element={<Users />} />
+                  <Route path="posts" element={<Posts />}>
+                    <Route path=":id" element={<PostDetail />}>
+                      <Route index element={<PostIndex />} />
+                      <Route path="comments/:id" element={<Comments />} />
                     </Route>
                   </Route>
                 </Route>

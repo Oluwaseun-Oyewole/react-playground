@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -13,7 +13,8 @@ import type { LoginModelType } from "../model/User";
 import { LoginModel } from "../model/User";
 
 export const Login = () => {
-  const { setToken, login, user } = useLoginContextProvider();
+  const { setToken, login, persist, setPersist, per, setPer } =
+    useLoginContextProvider();
 
   const {
     handleSubmit,
@@ -54,13 +55,11 @@ export const Login = () => {
       const response = await login(formValues.email, formValues.password);
 
       const {
-        _tokenResponse: { idToken, refreshToken },
+        _tokenResponse: { idToken },
       }: any = response;
       setToken(idToken);
 
-      console.log("idToken: " + idToken);
-      console.log("refreshToken: " + refreshToken);
-      navigate("/dashboard");
+      navigate("/posts");
       setLoading("");
     } catch (error) {
       if (error instanceof Error) {
@@ -69,6 +68,14 @@ export const Login = () => {
       }
     }
   };
+
+  const togglePersist = () => {
+    setPersist((prev: boolean) => !prev);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist]);
 
   return (
     <div>
@@ -127,15 +134,30 @@ export const Login = () => {
         <FieldSet>
           <Button children="submit" type="submit" />
         </FieldSet>
+
+        <FieldSet>
+          <div className="flex gap-2 items-center">
+            <input
+              type="checkbox"
+              id="persist"
+              onChange={togglePersist}
+              checked={persist}
+              className="cursor-pointer"
+            />
+            <label htmlFor="persist">Trust this device</label>
+          </div>
+        </FieldSet>
       </form>
-      <Link to="/password-reset" className="text-blue-500">
-        Forgot password?
-      </Link>
-      <QuestionComponent
-        path="/signup"
-        children="SignUp"
-        message="Already Signup?"
-      />
+      <div className="flex justify-between items-center">
+        <Link to="/password-reset" className="text-blue-500">
+          Forgot password?
+        </Link>
+        <QuestionComponent
+          path="/signup"
+          children="SignUp"
+          message="Already Signup?"
+        />
+      </div>
     </div>
   );
 };

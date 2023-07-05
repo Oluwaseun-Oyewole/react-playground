@@ -52,7 +52,7 @@ export const PostIndex = () => {
       setStatus("Deleting..");
       const postToDelete = doc(db, "Posts", `${id}`);
       await deleteDoc(postToDelete);
-      navigate("/dashboard/posts");
+      navigate("/posts");
       setStatus("Deleted");
     } catch (error) {
       setStatus("Deletion Failed");

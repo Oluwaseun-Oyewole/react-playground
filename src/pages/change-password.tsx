@@ -83,7 +83,7 @@ export const ChangePassword = () => {
         </FieldSet>
       </form>
 
-      <QuestionComponent path="/dashboard" children="Dashboard" message="" />
+      <QuestionComponent path="/user" children="User" message="" />
     </div>
   );
 };

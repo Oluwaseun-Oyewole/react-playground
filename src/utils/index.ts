@@ -4,14 +4,17 @@ export interface LinkModel {
   isActive?: boolean;
 }
 
-export const navLinks = [{ title: "Dashboard", pathname: "dashboard" }];
+export const navLinks = [
+  { title: "User", pathname: "users" },
+  { title: "Posts", pathname: "posts" },
+];
 
 export type DashboardModel = {
   title: string;
   pathname: string;
 }[];
 
-export const DashboardLinks: DashboardModel = [
-  { title: "Users", pathname: "users" },
-  { title: "Posts", pathname: "posts" },
-];
+// export const DashboardLinks: DashboardModel = [
+//   { title: "User", pathname: "users" },
+//   { title: "Posts", pathname: "posts" },
+// ];

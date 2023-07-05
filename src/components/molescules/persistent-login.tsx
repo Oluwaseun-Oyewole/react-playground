@@ -6,7 +6,7 @@ import { useRefreshToken } from "../../hooks/useRefreshToken";
 export const PersistentLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
-  const { token } = useLoginContextProvider();
+  const { token, persist } = useLoginContextProvider();
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -23,9 +23,13 @@ export const PersistentLogin = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`isLoading State ${isLoading}`);
-    console.log(`Auth Token ${JSON.stringify(token)}`);
+    // console.log(`isLoading State ${isLoading}`);
+    // console.log(`Auth Token ${JSON.stringify(token)}`);
   }, [isLoading]);
 
-  return <>{isLoading ? "Loading...." : <Outlet />}</>;
+  return (
+    <>
+      {!persist ? <Outlet /> : <> {isLoading ? "Loading...." : <Outlet />}</>}
+    </>
+  );
 };

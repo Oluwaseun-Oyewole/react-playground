@@ -66,9 +66,12 @@ function loginReducer<T>(state: State<T>, action: ACTIONTYPE<T>) {
 
 const useLoginContext = <T,>(initialState: State<T>) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
-  const [token, setToken] = useState<object>({});
-  const [user, setUser] = useState<object | null>({});
-  const [persist, setPersist] = useState();
+  const [token, setToken] = useState<any>("");
+  const [user, setUser] = useState<any | null>({});
+  const [persist, setPersist] = useState<any>(
+    JSON.parse(localStorage.getItem("persist")) | false
+  );
+  const [per, setPer] = useLocalStorage("persists", false);
 
   const createUserAuthentication = async (
     email: string,
@@ -86,7 +89,8 @@ const useLoginContext = <T,>(initialState: State<T>) => {
   const handleLogout = async (): Promise<void> => {
     try {
       dispatch({ type: "logout" });
-      setToken({});
+      setToken("");
+
       await signOut(auth);
     } catch (error) {
       dispatch({ type: "error", payload: error });
@@ -134,6 +138,10 @@ const useLoginContext = <T,>(initialState: State<T>) => {
     login,
     updateUserProfile,
     emailVerification,
+    persist,
+    setPersist,
+    per,
+    setPer,
   };
 };
 
@@ -146,6 +154,14 @@ const LoginContextInitialState: UseLoginContextType = {
   },
   token: {},
   user: null,
+  persist: false,
+  per: false,
+  setPer: () => {
+    /**/
+  },
+  setPersist: () => {
+    /**/
+  },
   setToken: () => {
     /**/
   },
